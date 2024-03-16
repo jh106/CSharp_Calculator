@@ -10,8 +10,21 @@ using System.Windows.Forms;
 
 namespace Calculater
 {
+    public class ResultEventArgs : EventArgs
+    {
+        public string Result { get; }
+
+        public ResultEventArgs(string result)
+        {
+            Result = result;
+        }
+    }
+
     public partial class Calculator : Form
     {
+
+        public event EventHandler<ResultEventArgs> ResultCalculated;
+
         enum Operators
         {
             None,
@@ -28,7 +41,7 @@ namespace Calculater
         double secondOperand = 0;
         double setButton = 0;
 
-
+        public string Res { get; set; }
         public Calculator()
         {
             InitializeComponent();
@@ -67,7 +80,7 @@ namespace Calculater
 
         private void ButtonSave_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void ButtonAllCleaar_Click(object sender, EventArgs e)
@@ -80,12 +93,23 @@ namespace Calculater
 
         private void ButtonBack_Click(object sender, EventArgs e)
         {
+            OnResultCalculated(new ResultEventArgs(Res));
+            this.Close();
+        }
 
+        protected virtual void OnResultCalculated(ResultEventArgs e)
+        {
+            ResultCalculated?.Invoke(this, e); // 이벤트 호출
         }
 
         private void ButtonResult_Click(object sender, EventArgs e)
         {
-            secondOperand = double.Parse(Display.Text);
+            if (operatorChangeFlag == false)
+            {
+                secondOperand = double.Parse(Display.Text);
+                operatorChangeFlag = true;
+            }
+
             switch(currentOperator)
             {
                 case Operators.None:
@@ -117,8 +141,9 @@ namespace Calculater
                     break;
 
             }
+            Res = Display.Text;
         }
-
+        
         private void ButtonDat_Click(object sender, EventArgs e)
         {
             if (!Display.Text.Contains("."))

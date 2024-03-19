@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Calculater
@@ -57,7 +50,7 @@ namespace Calculater
         private void ButtonCalc_Click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
-            switch(button.Text)
+            switch (button.Text)
             {
                 case "+":
                     calcNum(Operators.Add);
@@ -80,7 +73,7 @@ namespace Calculater
 
         private void ButtonSave_Click(object sender, EventArgs e)
         {
-            
+            OnResultCalculated(new ResultEventArgs(Res));
         }
 
         private void ButtonAllCleaar_Click(object sender, EventArgs e)
@@ -93,7 +86,6 @@ namespace Calculater
 
         private void ButtonBack_Click(object sender, EventArgs e)
         {
-            OnResultCalculated(new ResultEventArgs(Res));
             this.Close();
         }
 
@@ -110,7 +102,7 @@ namespace Calculater
                 operatorChangeFlag = true;
             }
 
-            switch(currentOperator)
+            switch (currentOperator)
             {
                 case Operators.None:
                     break;
@@ -143,7 +135,7 @@ namespace Calculater
             }
             Res = Display.Text;
         }
-        
+
         private void ButtonDat_Click(object sender, EventArgs e)
         {
             if (!Display.Text.Contains("."))
@@ -160,7 +152,7 @@ namespace Calculater
                 Display.Text = "";
                 operatorChangeFlag = false;
             }
-            if (Display.Text == "0") 
+            if (Display.Text == "0")
             {
                 Display.Text = "";
             }
@@ -213,7 +205,7 @@ namespace Calculater
 
                 default:
                     break;
-                  
+
             }
         }
 

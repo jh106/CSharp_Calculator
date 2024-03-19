@@ -31,7 +31,7 @@
             this.goCalc = new System.Windows.Forms.Button();
             this.ResultValue = new System.Windows.Forms.Label();
             this.Text = new System.Windows.Forms.Button();
-            this.Exel = new System.Windows.Forms.Button();
+            this.Excel = new System.Windows.Forms.Button();
             this.DataBase = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -66,17 +66,16 @@
             this.Text.TabIndex = 2;
             this.Text.Text = "Text저장";
             this.Text.UseVisualStyleBackColor = true;
-            //this.Text.Click += new System.EventHandler(this.Text_Click);
             // 
-            // Exel
+            // Excel
             // 
-            this.Exel.Location = new System.Drawing.Point(878, 578);
-            this.Exel.Name = "Exel";
-            this.Exel.Size = new System.Drawing.Size(266, 196);
-            this.Exel.TabIndex = 3;
-            this.Exel.Text = "Exel저장";
-            this.Exel.UseVisualStyleBackColor = true;
-            this.Exel.Click += new System.EventHandler(this.Exel_Click);
+            this.Excel.Location = new System.Drawing.Point(878, 578);
+            this.Excel.Name = "Excel";
+            this.Excel.Size = new System.Drawing.Size(266, 196);
+            this.Excel.TabIndex = 3;
+            this.Excel.Text = "Excel저장";
+            this.Excel.UseVisualStyleBackColor = true;
+            //this.Excel.Click += new System.EventHandler(this.Excel_Click);
             // 
             // DataBase
             // 
@@ -94,12 +93,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1428, 786);
             this.Controls.Add(this.DataBase);
-            this.Controls.Add(this.Exel);
+            this.Controls.Add(this.Excel);
             this.Controls.Add(this.Text);
             this.Controls.Add(this.ResultValue);
             this.Controls.Add(this.goCalc);
             this.Name = "MainPage";
-            //this.Text = "Form1";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -110,7 +108,7 @@
         private System.Windows.Forms.Button goCalc;
         private System.Windows.Forms.Label ResultValue;
         private System.Windows.Forms.Button Text;
-        private System.Windows.Forms.Button Exel;
+        private System.Windows.Forms.Button Excel;
         private System.Windows.Forms.Button DataBase;
     }
 }

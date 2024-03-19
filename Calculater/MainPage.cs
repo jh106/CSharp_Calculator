@@ -41,10 +41,8 @@ namespace Calculater
 
         private void Text_Click(object sender, ResultEventArgs e)
         {
-            nav.ResultCalculated += Text_Click;
-
-            string filePath = "C:\\Users\\gimjinhwan\\source\\repos\\Calculater\\output.txt"; // 출력할 파일 경로
-            string dataToWrite = e.Result; //출력할 값
+            string filePath = "output.txt"; // 출력할 파일 경로
+            string dataToWrite = e.Result;
 
             try
             {

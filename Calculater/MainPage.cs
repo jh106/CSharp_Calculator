@@ -7,7 +7,6 @@ namespace Calculater
 {
     public partial class MainPage : Form
     {
-        private string connectionString = "Server=MariaDB;Database=test;User Id=root;Password=admin;";
         string res;
         Calculator nav;
         public MainPage()
@@ -81,7 +80,7 @@ namespace Calculater
 
         private void Excel_Click(object sender, ResultEventArgs e)
         {
-            string filePath = "C:\\Users\\gimjinhwan\\source\\repos\\Calculater\\output.xlsx"; // 출력할 파일 경로
+            string filePath = "output.xlsx"; // 출력할 파일 경로
             string dataToWrite = e.Result;
 
             Excel.Application excelApp = new Excel.Application();

@@ -8,6 +8,7 @@ namespace Calculater
     public partial class MainPage : Form
     {
         private string connectionString = "Server=###; Database=###; UserId=###; Password=###;";
+
         string res;
         Calculator nav;
         public MainPage()

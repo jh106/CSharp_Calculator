@@ -7,6 +7,8 @@ namespace Calculater
 {
     public partial class MainPage : Form
     {
+        private string connectionString = "Server=###; Database=###; UserId=###; Password=###;";
+
         string res;
         Calculator nav;
         public MainPage()
@@ -22,9 +24,9 @@ namespace Calculater
 
             nav.ResultCalculated += ResultMap;
 
-            nav.ResultCalculated += Text_Click;
+            //nav.ResultCalculated += Text_Click;
 
-            nav.ResultCalculated += Excel_Click;
+            //nav.ResultCalculated += Excel_Click;
 
 
 
@@ -38,18 +40,19 @@ namespace Calculater
 
         }
 
-        private void Text_Click(object sender, ResultEventArgs e)
+        private void Text_Click(object sender, EventArgs e)
         {
-            string filePath = "output.txt"; // 출력할 파일 경로
-            string dataToWrite = e.Result;
+            string filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments); // 출력할 파일 경로
+            string aPath = Path.Combine(filePath, "output.txt");
+            string dataToWrite = res; //출력할 값
 
             try
             {
                 // 파일이 이미 존재하는지 확인
-                bool fileExists = File.Exists(filePath);
+                bool fileExists = File.Exists(aPath);
 
                 // StreamWriter를 사용하여 파일에 텍스트를 추가 또는 쓰기
-                using (StreamWriter writer = new StreamWriter(filePath, fileExists))
+                using (StreamWriter writer = new StreamWriter(aPath, fileExists))
                 {
                     // 파일이 이미 존재하는 경우 새로운 줄로 추가
                     if (fileExists)
@@ -78,10 +81,11 @@ namespace Calculater
 
         }
 
-        private void Excel_Click(object sender, ResultEventArgs e)
+        private void Excel_Click(object sender, EventArgs e)
         {
-            string filePath = "output.xlsx"; // 출력할 파일 경로
-            string dataToWrite = e.Result;
+            string filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments); // 출력할 파일 경로
+            string aPath = Path.Combine(filePath, "output.xlsx");
+            string dataToWrite = res;
 
             Excel.Application excelApp = new Excel.Application();
             Excel.Workbook workbook = null;
@@ -89,25 +93,25 @@ namespace Calculater
 
             try
             {
-                bool fileExists = File.Exists(filePath);
+                bool fileExists = File.Exists(aPath);
 
                 if (fileExists)
                 {
-                    workbook = excelApp.Workbooks.Open(filePath);
+                    workbook = excelApp.Workbooks.Open(aPath);
                     worksheet = workbook.Sheets[1];
                     int lastRow = worksheet.Cells[worksheet.Rows.Count, 1].End[Microsoft.Office.Interop.Excel.XlDirection.xlUp].Row + 1;
                     worksheet.Cells[lastRow, 1] = dataToWrite;
-                    Console.WriteLine("is True");
+                    Console.WriteLine("ok");
                 }
                 else
                 {
                     workbook = excelApp.Workbooks.Add();
                     worksheet = workbook.Sheets[1];
                     worksheet.Cells[1, 1] = dataToWrite;
-                    Console.WriteLine("is False");
+                    Console.WriteLine("not ok");
                 }
 
-                workbook.SaveAs(filePath);
+                workbook.SaveAs(aPath);
                 workbook.Close();
                 excelApp.Quit();
 

@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
+using MySql.Data.MySqlClient;
+using System.Runtime.InteropServices;
 
 namespace Calculater
 {
     public partial class MainPage : Form
     {
-        private string connectionString = "Server=###; Database=###; UserId=###; Password=###;";
         string res;
         Calculator nav;
         public MainPage()
@@ -18,19 +20,10 @@ namespace Calculater
         private void NavCalc(object sender, EventArgs e)
         {
             nav = new Calculator();
-
             nav.Show();
-
             nav.ResultCalculated += ResultMap;
 
-            //nav.ResultCalculated += Text_Click;
-
-            //nav.ResultCalculated += Excel_Click;
-
-
-
         }
-
 
         private void ResultMap(object sender, ResultEventArgs e)
         {
@@ -42,16 +35,16 @@ namespace Calculater
         private void Text_Click(object sender, EventArgs e)
         {
             string filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments); // 출력할 파일 경로
-            string aPath = Path.Combine(filePath, "output.txt");
+            string Text_Path = Path.Combine(filePath, "output.txt");
             string dataToWrite = res; //출력할 값
 
             try
             {
                 // 파일이 이미 존재하는지 확인
-                bool fileExists = File.Exists(aPath);
+                bool fileExists = File.Exists(Text_Path);
 
                 // StreamWriter를 사용하여 파일에 텍스트를 추가 또는 쓰기
-                using (StreamWriter writer = new StreamWriter(aPath, fileExists))
+                using (StreamWriter writer = new StreamWriter(Text_Path, fileExists))
                 {
                     // 파일이 이미 존재하는 경우 새로운 줄로 추가
                     if (fileExists)
@@ -75,15 +68,10 @@ namespace Calculater
             }
         }
 
-        private void DataBase_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void Excel_Click(object sender, EventArgs e)
         {
             string filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments); // 출력할 파일 경로
-            string aPath = Path.Combine(filePath, "output.xlsx");
+            string Excel_Path = Path.Combine(filePath, "output.xlsx");
             string dataToWrite = res;
 
             Excel.Application excelApp = new Excel.Application();
@@ -92,11 +80,12 @@ namespace Calculater
 
             try
             {
-                bool fileExists = File.Exists(aPath);
+                bool fileExists = File.Exists(Excel_Path);
+                excelApp.DisplayAlerts = false;
 
                 if (fileExists)
                 {
-                    workbook = excelApp.Workbooks.Open(aPath);
+                    workbook = excelApp.Workbooks.Open(Excel_Path);
                     worksheet = workbook.Sheets[1];
                     int lastRow = worksheet.Cells[worksheet.Rows.Count, 1].End[Microsoft.Office.Interop.Excel.XlDirection.xlUp].Row + 1;
                     worksheet.Cells[lastRow, 1] = dataToWrite;
@@ -109,8 +98,7 @@ namespace Calculater
                     worksheet.Cells[1, 1] = dataToWrite;
                     Console.WriteLine("not ok");
                 }
-
-                workbook.SaveAs(aPath);
+                workbook.SaveAs(Excel_Path);
                 workbook.Close();
                 excelApp.Quit();
 
@@ -121,6 +109,43 @@ namespace Calculater
                 Console.WriteLine("An error occurred: " + ex.Message);
                 excelApp.Quit();
             }
+            finally
+            {
+                Marshal.ReleaseComObject(workbook);
+                Marshal.ReleaseComObject(excelApp);
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                Console.WriteLine("Data has been written to the Excel file successfully.");
+            }
+        }
+
+        private void DataBase_Click(object sender, EventArgs e)
+        {
+            string dataToWrite = res;
+            string connStr = ConfigurationManager.AppSettings["DbConnectionString"];
+            MySqlConnection conn = new MySqlConnection(connStr);
+
+            try
+            {
+                Console.WriteLine("Connecting to MariaDB...");
+                conn.Open();
+
+                string sql = "INSERT INTO tbl (Result) VALUES (@dataToWrite)";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@dataToWrite", dataToWrite);
+                cmd.ExecuteNonQuery();
+                Console.WriteLine("The calculator result has been stored successfully.");
+            } catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            Console.WriteLine("Done.");
+
         }
     }
 }

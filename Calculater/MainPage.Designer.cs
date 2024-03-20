@@ -66,6 +66,7 @@
             this.Text.TabIndex = 2;
             this.Text.Text = "Text저장";
             this.Text.UseVisualStyleBackColor = true;
+            this.Text.Click += new System.EventHandler(this.Text_Click);
             // 
             // Excel
             // 
@@ -75,7 +76,7 @@
             this.Excel.TabIndex = 3;
             this.Excel.Text = "Excel저장";
             this.Excel.UseVisualStyleBackColor = true;
-            //this.Excel.Click += new System.EventHandler(this.Excel_Click);
+            this.Excel.Click += new System.EventHandler(this.Excel_Click);
             // 
             // DataBase
             // 

@@ -147,5 +147,12 @@ namespace Calculater
             Console.WriteLine("Done.");
 
         }
+
+        private void ReadList_Click(object sender, EventArgs e)
+        {
+            DataList list = new DataList(); 
+            list.Show();
+
+        }
     }
 }

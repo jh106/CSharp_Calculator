@@ -33,6 +33,7 @@
             this.Text = new System.Windows.Forms.Button();
             this.Excel = new System.Windows.Forms.Button();
             this.DataBase = new System.Windows.Forms.Button();
+            this.ReadList = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // goCalc
@@ -88,11 +89,22 @@
             this.DataBase.UseVisualStyleBackColor = true;
             this.DataBase.Click += new System.EventHandler(this.DataBase_Click);
             // 
+            // ReadList
+            // 
+            this.ReadList.Location = new System.Drawing.Point(1150, 516);
+            this.ReadList.Name = "ReadList";
+            this.ReadList.Size = new System.Drawing.Size(266, 56);
+            this.ReadList.TabIndex = 5;
+            this.ReadList.Text = "불러오기";
+            this.ReadList.UseVisualStyleBackColor = true;
+            this.ReadList.Click += new System.EventHandler(this.ReadList_Click);
+            // 
             // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1428, 786);
+            this.Controls.Add(this.ReadList);
             this.Controls.Add(this.DataBase);
             this.Controls.Add(this.Excel);
             this.Controls.Add(this.Text);
@@ -111,5 +123,6 @@
         private System.Windows.Forms.Button Text;
         private System.Windows.Forms.Button Excel;
         private System.Windows.Forms.Button DataBase;
+        private System.Windows.Forms.Button ReadList;
     }
 }
